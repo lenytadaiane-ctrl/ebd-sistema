@@ -1,1 +1,351 @@
-const{useState:useState,useEffect:useEffect}=React;const Calendar=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"}));const Users=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"}));const Book=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"}));const FileText=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"}));const DollarSign=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"}));const Eye=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M15 12a3 3 0 11-6 0 3 3 0 016 0z"}),React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"}));const Save=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"}));const RefreshCw=({className:e="w-5 h-5"})=>React.createElement("svg",{className:e,fill:"none",stroke:"currentColor",viewBox:"0 0 24 24"},React.createElement("path",{strokeLinecap:"round",strokeLinejoin:"round",strokeWidth:2,d:"M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"}));const EBDApp=()=>{const scriptUrl="https://script.google.com/macros/s/AKfycbzjg-8O1MqANXvt6wQOcajXnChHFNl-e1aahRj1X8j12TeqOKHzoSK2VwEM1pKdk1IB/exec";const[userType,setUserType]=useState(null);const[selectedClass,setSelectedClass]=useState(null);const[password,setPassword]=useState("");const[view,setView]=useState("attendance");const[currentDate,setCurrentDate]=useState((new Date).toISOString().split("T")[0]);const[loading,setLoading]=useState(!1);const[syncStatus,setSyncStatus]=useState("");const[classes]=useState({adultos:{name:"Adultos",password:"adultos123",students:["Miss Irenilda","Jhon","Geisiely","Geraldinho","Dc Evandro","Dza Eunice","Dc Aureliano","Dza Martina","Catarina","Pr. Marcinho","Dza Louise","Carlito","Pr Edilson","Miss. Daniela","Edson","Miss. Marlene","Pb. Rodival","Paula Denardi","Camila Denardi","Pra. Rosana","Pr. Narciso","Elisangela","Miss. Lúcia","Pb. Carlos","Pr. Vanderley","Dulcilene","Silvana","Bianca","Gisele","Ana Blanco","Izabel","Jorge Rodrigues"]},preEscolar:{name:"Pré-Escolar (3-5 anos)",password:"pre123",students:["Miguel (Ianca)","Miguel (Pr. Lourival)","Leonardo","Cecilia","Maria Alicia"]},primarios:{name:"Primários (6-8 anos)",password:"primarios123",students:["Othavio","Davi Luiz","Sofia","Emanuel","Mariana","Ruan"]},teens:{name:"Teens (9-11 anos)",password:"teens123",students:["Marcos Paulo","Arthur Rocha","Sarah","Valentina"]},adolescentes:{name:"Adolescentes (12-15 anos)",password:"adolescentes123",students:["Maria Eduarda","Paloma","Ana Julia","Isabela","Sarah","Salomao","Juliana","Emanuely","Júlia Vitória","Amanda Blanco","Maria Luiza"]},jovens:{name:"Jovens",password:"jovens123",students:["Pb Antônio","Dza Lenita","Henrique Santos","Murilo Aurélio","Ev Igor","Natanael","Zaine","Leo","Iana","Davi","Sara","Carlos","Ludmila","Evandro Jr","Rafael","Ana Dhessy","Inaê","Werika Santos","Felipe Rodrigo"]}});const[attendance,setAttendance]=useState({});const[records,setRecords]=useState({});const loadFromCloud=async()=>{setLoading(!0);setSyncStatus("Carregando...");try{const e=await fetch(scriptUrl+"?action=getRecords"),t=await e.json();setRecords(t||{});setSyncStatus("Sincronizado!");setTimeout((()=>setSyncStatus("")),2e3)}catch(e){console.error("Erro:",e);setSyncStatus("Erro");setTimeout((()=>setSyncStatus("")),3e3)}setLoading(!1)};const saveToCloud=async(e,t)=>{try{await fetch(scriptUrl,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"saveRecord",key:e,value:t})});setSyncStatus("Salvo!");setTimeout((()=>setSyncStatus("")),2e3)}catch(e){console.error("Erro:",e)}};useEffect((()=>{loadFromCloud()}),[]);const getKey=(e,t)=>e+"_"+t;const getData=(e,t)=>{const a=getKey(e,t);return attendance[a]||{present:[],bibles:0,magazines:0,visitors:0,offerPix:0,offerCash:0,teachersAbsent:0,notes:""}};const updateData=(e,t,a)=>{const s=getKey(e,t);setAttendance((e=>({...e,[s]:a})))};const saveRecord=async(e,t)=>{const a=getData(e,t),s=e+"_"+t;if(0===a.present.length&&!a.bibles&&!a.magazines)return void alert("Adicione dados!");const n={...a,className:classes[e].name,classKey:e,date:t,savedAt:(new Date).toISOString()};setRecords((e=>({...e,[s]:n})));setSyncStatus("Salvando...");await saveToCloud(s,n);alert("Salvo!")};const handleLogin=(e,t=null)=>{"master"===e?password==="coordenador2025"?(setUserType("master"),setPassword("")):alert("Senha incorreta!"):password===classes[t].password?(setUserType("teacher"),setSelectedClass(t),setPassword("")):alert("Senha incorreta!")};const toggle=(e,t,a)=>{const s=getData(e,t),n=s.present.includes(a)?s.present.filter((e=>e!==a)):[...s.present,a];updateData(e,t,{...s,present:n})};const updateField=(e,t,a,s)=>{const n=getData(e,t);updateData(e,t,{...n,[a]:s})};const getTotals=e=>{let t={present:0,bibles:0,magazines:0,visitors:0,offerPix:0,offerCash:0,teachersAbsent:0};return Object.keys(classes).forEach((a=>{const s=getData(a,e);t.present+=s.present.length;t.bibles+=Number(s.bibles)||0;t.magazines+=Number(s.magazines)||0;t.visitors+=Number(s.visitors)||0;t.offerPix+=Number(s.offerPix)||0;t.offerCash+=Number(s.offerCash)||0;t.teachersAbsent+=Number(s.teachersAbsent)||0})),t};if(!userType)return React.createElement("div",{className:"min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4"},React.createElement("div",{className:"bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"},React.createElement("div",{className:"text-center mb-8"},React.createElement(Book,{className:"w-16 h-16 mx-auto text-indigo-600 mb-4"}),React.createElement("h1",{className:"text-3xl font-bold text-gray-800"},"Sistema EBD"),React.createElement("p",{className:"text-gray-600 mt-2"},"Escola Bíblica Dominical"),syncStatus&&React.createElement("p",{className:"text-sm mt-2 text-indigo-600"},syncStatus)),React.createElement("div",{className:"space-y-4"},React.createElement("button",{onClick:()=>setUserType("master-login"),className:"w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2"},React.createElement(Eye,null),"Acesso Coordenador"),React.createElement("div",{className:"relative"},React.createElement("div",{className:"absolute inset-0 flex items-center"},React.createElement("div",{className:"w-full border-t border-gray-300"})),React.createElement("div",{className:"relative flex justify-center text-sm"},React.createElement("span",{className:"px-2 bg-white text-gray-500"},"ou"))),React.createElement("div",{className:"space-y-2"},React.createElement("p",{className:"text-sm text-gray-600 font-medium"},"Acesso Professor:"),Object.entries(classes).map((([e,t])=>React.createElement("button",{key:e,onClick:()=>setUserType("teacher-"+e),className:"w-full bg-gray-100 text-gray-800 py-2 rounded-lg hover:bg-gray-200 transition"},t.name)))),React.createElement("button",{onClick:loadFromCloud,disabled:loading,className:"w-full mt-4 bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition flex items-center justify-center gap-2"},React.createElement(RefreshCw,{className:loading?"animate-spin":""}),loading?"Sincronizando...":"Atualizar Dados"))));if(userType.includes("login")||userType.includes("teacher-")){const e="master-login"===userType,t=userType.replace("teacher-","");return React.createElement("div",{className:"min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4"},React.createElement("div",{className:"bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full"},React.createElement("h2",{className:"text-2xl font-bold text-gray-800 mb-6 text-center"},e?"Acesso Coordenador":classes[t].name),React.createElement("div",{className:"space-y-4"},React.createElement("input",{type:"password",placeholder:"Digite a senha",value:password,onChange:e=>setPassword(e.target.value),onKeyPress:a=>"Enter"===a.key&&handleLogin(e?"master":"teacher",t),className:"w-full px-4 py-3 border border-gray-300 rounded-lg"}),React.createElement("div",{className:"flex gap-2"},React.createElement("button",{onClick:()=>handleLogin(e?"master":"teacher",t),className:"flex-1 bg-indigo-600 text-white py-3 rounded-lg"},"Entrar"),React.createElement("button",{onClick:()=>{setUserType(null);setPassword("")},className:"flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg"},"Voltar")))))}const isTeacher="teacher"===userType,isMaster="master"===userType;const renderForm=(e,t)=>{const a=classes[e],s=getData(e,t);return React.createElement("div",{className:"space-y-6"},syncStatus&&React.createElement("div",{className:"bg-blue-50 border border-blue-200 rounded-lg p-3 text-center"},React.createElement("p",{className:"text-blue-800 text-sm"},syncStatus)),React.createElement("div",{className:"bg-white rounded-lg shadow p-6"},React.createElement("h3",{className:"text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"},React.createElement(Users,null),"Chamada - ",a.students.length," Alunos"),React.createElement("div",{className:"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"},a.students.map((a=>React.createElement("button",{key:a,onClick:()=>toggle(e,t,a),className:"p-3 rounded-lg border-2 transition text-left "+(s.present.includes(a)?"bg-green-50 border-green-500 text-green-800":"bg-gray-50 border-gray-300 text-gray-600")},React.createElement("div",{className:"flex items-center gap-2"},React.createElement("div",{className:"w-4 h-4 rounded-full "+(s.present.includes(a)?"bg-green-500":"bg-gray-300")}),React.createElement("span",{className:"text-sm font-medium"},a)))))),React.createElement("p",{className:"mt-4 text-sm text-gray-600"},"Presentes: ",React.createElement("span",{className:"font-bold text-indigo-600"},s.present.length)," de ",a.students.length)),React.createElement("div",{className:"grid grid-cols-1 md:grid-cols-2 gap-6"},React.createElement("div",{className:"bg-white rounded-lg shadow p-6"},React.createElement("h3",{className:"text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"},React.createElement(Book,null),"Materiais"),React.createElement("div",{className:"space-y-4"},React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"Bíblias"),React.createElement("input",{type:"number",min:"0",value:s.bibles,onChange:a=>updateField(e,t,"bibles",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})),React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"Revistas"),React.createElement("input",{type:"number",min:"0",value:s.magazines,onChange:a=>updateField(e,t,"magazines",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})),React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"Visitantes"),React.createElement("input",{type:"number",min:"0",value:s.visitors,onChange:a=>updateField(e,t,"visitors",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})))),React.createElement("div",{className:"bg-white rounded-lg shadow p-6"},React.createElement("h3",{className:"text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"},React.createElement(DollarSign,null),"Ofertas"),React.createElement("div",{className:"space-y-4"},React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"PIX (R$)"),React.createElement("input",{type:"number",min:"0",step:"0.01",value:s.offerPix,onChange:a=>updateField(e,t,"offerPix",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})),React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"Dinheiro (R$)"),React.createElement("input",{type:"number",min:"0",step:"0.01",value:s.offerCash,onChange:a=>updateField(e,t,"offerCash",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})),React.createElement("div",null,React.createElement("label",{className:"block text-sm font-medium text-gray-700 mb-2"},"Prof. Ausentes"),React.createElement("input",{type:"number",min:"0",value:s.teachersAbsent,onChange:a=>updateField(e,t,"teachersAbsent",a.target.value),className:"w-full px-4 py-2 border border-gray-300 rounded-lg"})),React.createElement("div",{className:"pt-2 border-t"},React.createElement("p",{className:"text-sm text-gray-600"},"Total: ",React.createElement("span",{className:"font-bold text-green-600"},"R$ ",((Number(s.offerPix)||0)+(Number(s.offerCash)||0)).toFixed(2))))))),React.createElement("div",{className:"bg-white rounded-lg shadow p-6"},React.createElement("h3",{className:"text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2"},React.createElement(FileText,null),"Observações"),React.createElement("textarea",{value:s.notes,onChange:a=>updateField(e,t,"notes",a.target.value),className:"w-full px-4 py-3 border border-gray-300 rounded-lg h-24 resize-none",placeholder:"Observações..."})),React.createElement("button",{onClick:()=>saveRecord(e,t),disabled:loading,className:"w-full bg-indigo-600 text-white py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2 font-semibold disabled:opacity-50"},React.createElement(Save,null),loading?"Salvando...":"Salvar Registro"))};const renderDashboard=()=>{const e=getTotals(currentDate),t=Object.entries(records).filter((([e])=>e.includes(currentDate)));return React.createElement("div",{className:"space-y-6"},syncStatus&&React.createElement("div",{className:"bg-blue-50 border border-blue-200 rounded-lg p-3 text-center"},React.createElement("p",{className:"text-blue-800 text-sm"},syncStatus)),React.createElement("div",{className:"bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg p-6 text-white"},React.createElement("div",{className:"flex items-center justify-between"},React.createElement("div",null,React.createElement("h2",{className:"text-2xl font-bold mb-2"},"Relatório Geral"),React.createElement("p",{className:"text-indigo-100"},new Date(currentDate+"T00:00:00").toLocaleDateString("pt-BR",{weekday:"long",year:"numeric",month:"long",day:"numeric"})),t.length>0&&React.createElement("p",{className:"text-sm text-indigo-100 mt-2"},t.length," turma(s) salvas")),React.createElement("button",{onClick:loadFromCloud,disabled:loading,className:"px-4 py-2 bg-white bg-opacity-20 hover:bg-opacity-30 rounded-lg transition flex items-center gap-2"},React.createElement(RefreshCw,{className:loading?"animate-spin":""}),"Atualizar"))),React.createElement("div",{className:"grid grid-cols-2 md:grid-cols-4 gap-4"},React.createElement("div",{className:"bg-white rounded-lg shadow p-4"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement(Users,{className:"w-8 h-8 text-indigo-600"}),React.createElement("div",null,React.createElement("p",{className:"text-sm text-gray-600"},"Presentes"),React.createElement("p",{className:"text-2xl font-bold text-gray-800"},e.present)))),React.createElement("div",{className:"bg-white rounded-lg shadow p-4"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement(Book,{className:"w-8 h-8 text-blue-600"}),React.createElement("div",null,React.createElement("p",{className:"text-sm text-gray-600"},"Bíblias"),React.createElement("p",{className:"text-2xl font-bold text-gray-800"},e.bibles)))),React.createElement("div",{className:"bg-white rounded-lg shadow p-4"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement(FileText,{className:"w-8 h-8 text-green-600"}),React.createElement("div",null,React.createElement("p",{className:"text-sm text-gray-600"},"Revistas"),React.createElement("p",{className:"text-2xl font-bold text-gray-800"},e.magazines)))),React.createElement("div",{className:"bg-white rounded-lg shadow p-4"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement(DollarSign,{className:"w-8 h-8 text-green-600"}),React.createElement("div",null,React.createElement("p",{className:"text-sm text-gray-600"},"Ofertas"),React.createElement("p",{className:"text-xl font-bold text-gray-800"},"R$ ",(e.offerPix+e.offerCash).toFixed(2)))))),0===t.length&&React.createElement("div",{className:"bg-yellow-50 border border-yellow-200 rounded-lg p-4"},React.createElement("p",{className:"text-yellow-800 text-sm"},"Nenhum registro salvo para esta data.")),React.createElement("div",{className:"space-y-4"},Object.entries(classes).map((([e,t])=>{const a=getData(e,currentDate),s=e+"_"+currentDate,n=void 0!==records[s];return React.createElement("div",{key:e,className:"bg-white rounded-lg shadow p-6 "+(n?"border-2 border-green-500":"")},React.createElement("div",{className:"flex items-center justify-between mb-4"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement("h3",{className:"text-lg font-semibold text-gray-800"},t.name),n&&React.createElement("span",{className:"px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full flex items-center gap-1"},React.createElement(Save,{className:"w-3 h-3"}),"Salvo")),React.createElement("button",{onClick:()=>{setSelectedClass(e);setView("edit")},className:"px-4 py-2 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 transition"},"Editar")),React.createElement("div",{className:"grid grid-cols-2 md:grid-cols-4 gap-4 text-sm"},React.createElement("div",null,React.createElement("p",{className:"text-gray-600"},"Presentes"),React.createElement("p",{className:"font-bold text-gray-800"},a.present.length,"/",t.students.length)),React.createElement("div",null,React.createElement("p",{className:"text-gray-600"},"Bíblias"),React.createElement("p",{className:"font-bold text-gray-800"},a.bibles)),React.createElement("div",null,React.createElement("p",{className:"text-gray-600"},"Revistas"),React.createElement("p",{className:"font-bold text-gray-800"},a.magazines)),React.createElement("div",null,React.createElement("p",{className:"text-gray-600"},"Ofertas"),React.createElement("p",{className:"font-bold text-green-600"},"R$ ",((Number(a.offerPix)||0)+(Number(a.offerCash)||0)).toFixed(2)))))}))))};return React.createElement("div",{className:"min-h-screen bg-gray-50"},React.createElement("header",{className:"bg-white shadow-sm border-b border-gray-200"},React.createElement("div",{className:"max-w-7xl mx-auto px-4 py-4"},React.createElement("div",{className:"flex items-center justify-between"},React.createElement("div",{className:"flex items-center gap-3"},React.createElement(Book,{className:"w-8 h-8 text-indigo-600"}),React.createElement("div",null,React.createElement("h1",{className:"text-2xl font-bold text-gray-800"},"Sistema EBD"),React.createElement("p",{className:"text-sm text-gray-600"},isTeacher?classes[selectedClass].name:"Coordenação"))),React.createElement("button",{onClick:()=>{setUserType(null);setSelectedClass(null);setView("attendance")},className:"px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition"},"Sair")))),React.createElement("div",{className:"max-w-7xl mx-auto px-4 py-6"},React.createElement("div",{className:"mb-6 bg-white rounded-lg shadow p-4"},React.createElement("div",{className:"flex flex-col md:flex-row gap-4 items-center justify-between"},React.createElement("div",{className:"flex items-center gap-4"},React.createElement("div",{className:"flex items-center gap-2"},React.createElement(Calendar,null),React.createElement("input",{type:"date",value:currentDate,onChange:e=>setCurrentDate(e.target.value),className:"px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"}))),isMaster&&React.createElement("div",{className:"flex gap-2"},React.createElement("button",{onClick:()=>setView("attendance"),className:"px-4 py-2 rounded-lg transition "+("attendance"===view?"bg-indigo-600 text-white":"bg-gray-100 text-gray-700 hover:bg-gray-200")},"Dashboard")))),isTeacher&&renderForm(selectedClass,currentDate),isMaster&&"attendance"===view&&renderDashboard(),isMaster&&"edit"===view&&React.createElement("div",{className:"space-y-4"},React.createElement("div",{className:"flex items-center justify-between bg-white rounded-lg shadow p-4"},React.createElement("h2",{className:"text-xl font-bold text-gray-800"},"Editando: ",classes[selectedClass].name),React.createElement("button",{onClick:()=>{setView("attendance");setSelectedClass(null)},className:"px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"},"Voltar")),renderForm(selectedClass,currentDate))))};ReactDOM.render(React.createElement(EBDApp,null),document.getElementById("root"));
+const { useState, useEffect } = React;
+
+const Book = () => <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>;
+
+const Users = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>;
+
+const Save = () => <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" /></svg>;
+
+const RefreshCw = ({ spin }) => <svg className={'w-5 h-5 ' + (spin ? 'animate-spin' : '')} fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" /></svg>;
+
+const EBDApp = () => {
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4PZSJY2Xr3sXWLhuxK2lN6TGfYoy0XJaqL2YJM6-EJ9M_5QCvN73oCvbPuaKE2AKw/exec';
+  
+  const [userType, setUserType] = useState(null);
+  const [selectedClass, setSelectedClass] = useState(null);
+  const [password, setPassword] = useState('');
+  const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState('');
+
+  const classes = {
+    adultos: { name: 'Adultos', password: 'adultos123', students: ['Miss Irenilda', 'Jhon', 'Geisiely', 'Geraldinho', 'Dc Evandro'] },
+    jovens: { name: 'Jovens', password: 'jovens123', students: ['Pb Antônio', 'Murilo', 'Natanael', 'Zaine', 'Leo'] }
+  };
+
+  const [attendance, setAttendance] = useState({});
+  const [records, setRecords] = useState({});
+
+  const loadRecords = async () => {
+    setLoading(true);
+    setStatus('Carregando...');
+    try {
+      const res = await fetch(SCRIPT_URL + '?action=getRecords');
+      const data = await res.json();
+      setRecords(data || {});
+      setStatus('Sincronizado! ✓');
+      setTimeout(() => setStatus(''), 2000);
+    } catch (err) {
+      setStatus('Erro ao carregar');
+      console.error(err);
+    }
+    setLoading(false);
+  };
+
+  const saveToCloud = async (key, value) => {
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ key, value })
+      });
+      setStatus('Salvo na nuvem! ✓');
+      setTimeout(() => setStatus(''), 2000);
+    } catch (err) {
+      setStatus('Erro ao salvar');
+      console.error(err);
+    }
+  };
+
+  useEffect(() => { loadRecords(); }, []);
+
+  const getKey = (cls, date) => cls + '_' + date;
+
+  const getData = (cls, date) => {
+    const key = getKey(cls, date);
+    return attendance[key] || { present: [], bibles: 0, magazines: 0, visitors: 0, offerPix: 0, offerCash: 0 };
+  };
+
+  const updateData = (cls, date, data) => {
+    setAttendance(prev => ({ ...prev, [getKey(cls, date)]: data }));
+  };
+
+  const togglePresence = (cls, date, student) => {
+    const data = getData(cls, date);
+    const present = data.present.includes(student) 
+      ? data.present.filter(s => s !== student)
+      : [...data.present, student];
+    updateData(cls, date, { ...data, present });
+  };
+
+  const updateField = (cls, date, field, value) => {
+    const data = getData(cls, date);
+    updateData(cls, date, { ...data, [field]: value });
+  };
+
+  const saveRecord = async (cls, date) => {
+    const data = getData(cls, date);
+    if (data.present.length === 0) {
+      alert('Marque pelo menos 1 aluno presente!');
+      return;
+    }
+    
+    const key = getKey(cls, date);
+    const value = { ...data, className: classes[cls].name, date, savedAt: new Date().toISOString() };
+    
+    setRecords(prev => ({ ...prev, [key]: value }));
+    setStatus('Salvando...');
+    await saveToCloud(key, value);
+    alert('Registro salvo com sucesso!');
+  };
+
+  const handleLogin = (type, cls = null) => {
+    if (type === 'master') {
+      if (password === 'coordenador2025') {
+        setUserType('master');
+        setPassword('');
+      } else {
+        alert('Senha incorreta!');
+      }
+    } else {
+      if (password === classes[cls].password) {
+        setUserType('teacher');
+        setSelectedClass(cls);
+        setPassword('');
+      } else {
+        alert('Senha incorreta!');
+      }
+    }
+  };
+
+  if (!userType) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+          <div className="text-center mb-8">
+            <Book />
+            <h1 className="text-3xl font-bold text-gray-800 mt-4">Sistema EBD</h1>
+            <p className="text-gray-600 mt-2">Escola Bíblica Dominical</p>
+            {status && <p className="text-sm mt-2 text-indigo-600">{status}</p>}
+          </div>
+
+          <div className="space-y-4">
+            <button onClick={() => setUserType('master-login')} className="w-full bg-indigo-600 text-white py-3 rounded-lg hover:bg-indigo-700 transition">
+              👨‍💼 Acesso Coordenador
+            </button>
+
+            <div className="border-t pt-4">
+              <p className="text-sm text-gray-600 font-medium mb-2">Acesso Professor:</p>
+              {Object.entries(classes).map(([key, cls]) => (
+                <button key={key} onClick={() => setUserType('teacher-' + key)} className="w-full bg-gray-100 text-gray-800 py-2 rounded-lg hover:bg-gray-200 transition mb-2">
+                  {cls.name}
+                </button>
+              ))}
+            </div>
+
+            <button onClick={loadRecords} disabled={loading} className="w-full bg-gray-200 text-gray-700 py-2 rounded-lg hover:bg-gray-300 transition flex items-center justify-center gap-2">
+              <RefreshCw spin={loading} />
+              {loading ? 'Sincronizando...' : 'Atualizar Dados'}
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (userType.includes('login') || userType.includes('teacher-')) {
+    const isMaster = userType === 'master-login';
+    const cls = userType.replace('teacher-', '');
+    
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full">
+          <h2 className="text-2xl font-bold text-gray-800 mb-6 text-center">
+            {isMaster ? 'Acesso Coordenador' : classes[cls].name}
+          </h2>
+          
+          <div className="space-y-4">
+            <input
+              type="password"
+              placeholder="Digite a senha"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              onKeyPress={(e) => e.key === 'Enter' && handleLogin(isMaster ? 'master' : 'teacher', cls)}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg"
+            />
+            
+            <div className="flex gap-2">
+              <button onClick={() => handleLogin(isMaster ? 'master' : 'teacher', cls)} className="flex-1 bg-indigo-600 text-white py-3 rounded-lg">
+                Entrar
+              </button>
+              <button onClick={() => { setUserType(null); setPassword(''); }} className="flex-1 bg-gray-200 text-gray-800 py-3 rounded-lg">
+                Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const isTeacher = userType === 'teacher';
+  const classData = classes[selectedClass];
+  const data = getData(selectedClass, currentDate);
+
+  if (isTeacher) {
+    return (
+      <div className="min-h-screen bg-gray-50 p-4">
+        <div className="max-w-4xl mx-auto">
+          <div className="bg-white rounded-lg shadow p-4 mb-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-bold text-gray-800">{classData.name}</h1>
+              <input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)} className="mt-2 px-3 py-2 border rounded" />
+            </div>
+            <button onClick={() => setUserType(null)} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
+          </div>
+
+          {status && <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-center text-blue-800">{status}</div>}
+
+          <div className="bg-white rounded-lg shadow p-6 mb-4">
+            <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <Users /> Chamada - {classData.students.length} Alunos
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              {classData.students.map(student => (
+                <button
+                  key={student}
+                  onClick={() => togglePresence(selectedClass, currentDate, student)}
+                  className={'p-3 rounded-lg border-2 transition text-left ' + (data.present.includes(student) ? 'bg-green-50 border-green-500' : 'bg-gray-50 border-gray-300')}
+                >
+                  <span className={'inline-block w-4 h-4 rounded-full mr-2 ' + (data.present.includes(student) ? 'bg-green-500' : 'bg-gray-300')} />
+                  {student}
+                </button>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-gray-600">
+              Presentes: <strong className="text-indigo-600">{data.present.length}</strong> de {classData.students.length}
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Bíblias</label>
+              <input type="number" min="0" value={data.bibles} onChange={(e) => updateField(selectedClass, currentDate, 'bibles', e.target.value)} className="w-full px-3 py-2 border rounded" />
+            </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Revistas</label>
+              <input type="number" min="0" value={data.magazines} onChange={(e) => updateField(selectedClass, currentDate, 'magazines', e.target.value)} className="w-full px-3 py-2 border rounded" />
+            </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Visitantes</label>
+              <input type="number" min="0" value={data.visitors} onChange={(e) => updateField(selectedClass, currentDate, 'visitors', e.target.value)} className="w-full px-3 py-2 border rounded" />
+            </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Oferta PIX (R$)</label>
+              <input type="number" min="0" step="0.01" value={data.offerPix} onChange={(e) => updateField(selectedClass, currentDate, 'offerPix', e.target.value)} className="w-full px-3 py-2 border rounded" />
+            </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Oferta Dinheiro (R$)</label>
+              <input type="number" min="0" step="0.01" value={data.offerCash} onChange={(e) => updateField(selectedClass, currentDate, 'offerCash', e.target.value)} className="w-full px-3 py-2 border rounded" />
+            </div>
+            <div className="bg-white rounded-lg shadow p-4 flex items-center justify-center">
+              <div>
+                <p className="text-sm text-gray-600">Total Ofertas:</p>
+                <p className="text-2xl font-bold text-green-600">R$ {((Number(data.offerPix) || 0) + (Number(data.offerCash) || 0)).toFixed(2)}</p>
+              </div>
+            </div>
+          </div>
+
+          <button onClick={() => saveRecord(selectedClass, currentDate)} disabled={loading} className="w-full bg-indigo-600 text-white py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2 font-semibold">
+            <Save />
+            {loading ? 'Salvando...' : 'Salvar Registro'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Coordenador
+  const todayRecords = Object.entries(records).filter(([key]) => key.includes(currentDate));
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="bg-white rounded-lg shadow p-4 mb-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">Dashboard Coordenador</h1>
+            <input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)} className="mt-2 px-3 py-2 border rounded" />
+          </div>
+          <div className="flex gap-2">
+            <button onClick={loadRecords} disabled={loading} className="px-4 py-2 bg-indigo-100 text-indigo-700 rounded flex items-center gap-2">
+              <RefreshCw spin={loading} />
+              Atualizar
+            </button>
+            <button onClick={() => setUserType(null)} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
+          </div>
+        </div>
+
+        {status && <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-center text-blue-800">{status}</div>}
+
+        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-lg shadow-lg p-6 text-white mb-4">
+          <h2 className="text-2xl font-bold mb-2">Relatório Geral</h2>
+          <p>{new Date(currentDate + 'T00:00:00').toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</p>
+          {todayRecords.length > 0 && <p className="text-sm mt-2">{todayRecords.length} turma(s) com registro salvo</p>}
+        </div>
+
+        {todayRecords.length === 0 && (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <p className="text-yellow-800 text-sm">⚠️ Nenhum registro salvo para esta data.</p>
+          </div>
+        )}
+
+        <div className="space-y-4">
+          {Object.entries(classes).map(([key, cls]) => {
+            const recordKey = key + '_' + currentDate;
+            const record = records[recordKey];
+            const isSaved = !!record;
+            
+            return (
+              <div key={key} className={'bg-white rounded-lg shadow p-6 ' + (isSaved ? 'border-2 border-green-500' : '')}>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <h3 className="text-lg font-semibold">{cls.name}</h3>
+                    {isSaved && (
+                      <span className="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full flex items-center gap-1">
+                        <Save /> Salvo
+                      </span>
+                    )}
+                  </div>
+                </div>
+                
+                {isSaved ? (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                    <div>
+                      <p className="text-gray-600">Presentes</p>
+                      <p className="font-bold">{record.present.length}/{cls.students.length}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Bíblias</p>
+                      <p className="font-bold">{record.bibles}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Revistas</p>
+                      <p className="font-bold">{record.magazines}</p>
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Ofertas</p>
+                      <p className="font-bold text-green-600">R$ {((Number(record.offerPix) || 0) + (Number(record.offerCash) || 0)).toFixed(2)}</p>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text-gray-500 text-sm">Sem registro para esta data</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+ReactDOM.render(<EBDApp />, document.getElementById('root'));
