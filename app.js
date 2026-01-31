@@ -1,55 +1,57 @@
-const { useState, useEffect } = React;
+<div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="mb-6 bg-white rounded-lg shadow p-4">
+      <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Calendar />
+            <input
+              type="date"
+              value={currentDate}
+              onChange={(e) => setCurrentDate(e.target.value)}
+              className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500"
+            />
+          </div>
+        </div>
 
-const EBDApp = () => {
-  const [message, setMessage] = useState('');
-
-  useEffect(() => {
-    setMessage('Sistema EBD funcionando! 🎉');
-  }, []);
-
-  return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: 'linear-gradient(to bottom right, #dbeafe, #e0e7ff)',
-      padding: '20px'
-    }}>
-      <div style={{
-        background: 'white',
-        borderRadius: '20px',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-        padding: '40px',
-        maxWidth: '400px',
-        width: '100%',
-        textAlign: 'center'
-      }}>
-        <h1 style={{
-          fontSize: '32px',
-          fontWeight: 'bold',
-          color: '#1f2937',
-          marginBottom: '20px'
-        }}>
-          Sistema EBD
-        </h1>
-        <p style={{
-          fontSize: '18px',
-          color: '#4f46e5',
-          marginTop: '20px'
-        }}>
-          {message}
-        </p>
-        <p style={{
-          fontSize: '14px',
-          color: '#6b7280',
-          marginTop: '20px'
-        }}>
-          Escola Bíblica Dominical
-        </p>
+        {isMaster && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => setView('attendance')}
+              className={'px-4 py-2 rounded-lg transition ' + (
+                view === 'attendance'
+                  ? 'bg-indigo-600 text-white'
+                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+              )}
+            >
+              Dashboard
+            </button>
+          </div>
+        )}
       </div>
     </div>
-  );
-};
 
-ReactDOM.render(<EBDApp />, document.getElementById('root'));
+    {isTeacher && renderAttendanceForm(selectedClass, currentDate)}
+    
+    {isMaster && view === 'attendance' && renderMasterDashboard()}
+    
+    {isMaster && view === 'edit' && (
+      <div className="space-y-4">
+        <div className="flex items-center justify-between bg-white rounded-lg shadow p-4">
+          <h2 className="text-xl font-bold text-gray-800">
+            Editando: {classes[selectedClass].name}
+          </h2>
+          <button
+            onClick={() => {
+              setView('attendance');
+              setSelectedClass(null);
+            }}
+            className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+          >
+            Voltar ao Dashboard
+          </button>
+        </div>
+        {renderAttendanceForm(selectedClass, currentDate)}
+      </div>
+    )}
+  </div>
+</div>
