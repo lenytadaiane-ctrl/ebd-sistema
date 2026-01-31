@@ -19,8 +19,36 @@ const EBDApp = () => {
   const [status, setStatus] = useState('');
 
   const classes = {
-    adultos: { name: 'Adultos', password: 'adultos123', students: ['Miss Irenilda', 'Jhon', 'Geisiely', 'Geraldinho', 'Dc Evandro'] },
-    jovens: { name: 'Jovens', password: 'jovens123', students: ['Pb Antônio', 'Murilo', 'Natanael', 'Zaine', 'Leo'] }
+    adultos: {
+      name: 'Adultos',
+      password: 'adultos123',
+      students: ['Miss Irenilda', 'Jhon', 'Geisiely', 'Geraldinho', 'Dc Evandro', 'Dza Eunice', 'Dc Aureliano', 'Dza Martina', 'Catarina', 'Pr. Marcinho', 'Dza Louise', 'Carlito', 'Pr Edilson', 'Miss. Daniela', 'Edson', 'Miss. Marlene', 'Pb. Rodival', 'Paula Denardi', 'Camila Denardi', 'Pra. Rosana', 'Pr. Narciso', 'Elisangela', 'Miss. Lúcia', 'Pb. Carlos', 'Pr. Vanderley', 'Dulcilene', 'Silvana', 'Bianca', 'Gisele', 'Ana Blanco', 'Izabel', 'Jorge Rodrigues']
+    },
+    preEscolar: {
+      name: 'Pré-Escolar (3-5 anos)',
+      password: 'pre123',
+      students: ['Miguel (Ianca)', 'Miguel (Pr. Lourival)', 'Leonardo', 'Cecilia', 'Maria Alicia']
+    },
+    primarios: {
+      name: 'Primários (6-8 anos)',
+      password: 'primarios123',
+      students: ['Othavio', 'Davi Luiz', 'Sofia', 'Emanuel', 'Mariana', 'Ruan']
+    },
+    teens: {
+      name: 'Teens (9-11 anos)',
+      password: 'teens123',
+      students: ['Marcos Paulo', 'Arthur Rocha', 'Sarah', 'Valentina']
+    },
+    adolescentes: {
+      name: 'Adolescentes (12-15 anos)',
+      password: 'adolescentes123',
+      students: ['Maria Eduarda', 'Paloma', 'Ana Julia', 'Isabela', 'Sarah', 'Salomao', 'Juliana', 'Emanuely', 'Júlia Vitória', 'Amanda Blanco', 'Maria Luiza']
+    },
+    jovens: {
+      name: 'Jovens',
+      password: 'jovens123',
+      students: ['Pb Antônio', 'Dza Lenita', 'Henrique Santos', 'Murilo Aurélio', 'Ev Igor', 'Natanael', 'Zaine', 'Leo', 'Iana', 'Davi', 'Sara', 'Carlos', 'Ludmila', 'Evandro Jr', 'Rafael', 'Ana Dhessy', 'Inaê', 'Werika Santos', 'Felipe Rodrigo']
+    }
   };
 
   const [attendance, setAttendance] = useState({});
@@ -62,7 +90,7 @@ const EBDApp = () => {
 
   const getData = (cls, date) => {
     const key = getKey(cls, date);
-    return attendance[key] || { present: [], bibles: 0, magazines: 0, visitors: 0, offerPix: 0, offerCash: 0 };
+    return attendance[key] || { present: [], bibles: 0, magazines: 0, visitors: 0, offerPix: 0, offerCash: 0, teachersAbsent: 0, notes: '' };
   };
 
   const updateData = (cls, date, data) => {
@@ -247,12 +275,20 @@ const EBDApp = () => {
               <label className="block text-sm font-medium mb-2">Oferta Dinheiro (R$)</label>
               <input type="number" min="0" step="0.01" value={data.offerCash} onChange={(e) => updateField(selectedClass, currentDate, 'offerCash', e.target.value)} className="w-full px-3 py-2 border rounded" />
             </div>
-            <div className="bg-white rounded-lg shadow p-4 flex items-center justify-center">
-              <div>
-                <p className="text-sm text-gray-600">Total Ofertas:</p>
-                <p className="text-2xl font-bold text-green-600">R$ {((Number(data.offerPix) || 0) + (Number(data.offerCash) || 0)).toFixed(2)}</p>
-              </div>
+            <div className="bg-white rounded-lg shadow p-4">
+              <label className="block text-sm font-medium mb-2">Prof. Não Escalados</label>
+              <input type="number" min="0" value={data.teachersAbsent} onChange={(e) => updateField(selectedClass, currentDate, 'teachersAbsent', e.target.value)} className="w-full px-3 py-2 border rounded" />
             </div>
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 mb-4">
+            <label className="block text-sm font-medium mb-2">Observações</label>
+            <textarea value={data.notes} onChange={(e) => updateField(selectedClass, currentDate, 'notes', e.target.value)} className="w-full px-3 py-2 border rounded h-24" placeholder="Observações sobre a aula..." />
+          </div>
+
+          <div className="bg-white rounded-lg shadow p-4 mb-4">
+            <p className="text-sm text-gray-600 mb-2">Total Ofertas:</p>
+            <p className="text-3xl font-bold text-green-600">R$ {((Number(data.offerPix) || 0) + (Number(data.offerCash) || 0)).toFixed(2)}</p>
           </div>
 
           <button onClick={() => saveRecord(selectedClass, currentDate)} disabled={loading} className="w-full bg-indigo-600 text-white py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2 font-semibold">
@@ -294,7 +330,7 @@ const EBDApp = () => {
 
         {todayRecords.length === 0 && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
-            <p className="text-yellow-800 text-sm">⚠️ Nenhum registro salvo para esta data.</p>
+            <p className="text-yellow-800 text-sm">⚠️ Nenhum registro salvo para esta data. Os professores devem clicar em Salvar Registro.</p>
           </div>
         )}
 
