@@ -75,7 +75,7 @@ const EBDApp = () => {
     setLoading(true);
     setStatus('Carregando...');
     try {
-      const res = await fetch(SCRIPT_URL + '?action=getRecords');
+      const res = await fetch(SCRIPT_URL + '?action=getRecords&t=' + Date.now());
       const data = await res.json();
       setRecords(data || {});
       setStatus('Sincronizado! ✓');
@@ -89,11 +89,16 @@ const EBDApp = () => {
 
   const saveToCloud = async (key, value) => {
     try {
-      await fetch(SCRIPT_URL, {
+      const response = await fetch(SCRIPT_URL, {
         method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain',
+        },
         body: JSON.stringify({ key, value })
       });
-      setStatus('Salvo na nuvem! ✓');
+      
+      await loadRecords();
+      setStatus('Salvo e sincronizado! ✓');
       setTimeout(() => setStatus(''), 2000);
     } catch (err) {
       setStatus('Erro ao salvar');
@@ -140,7 +145,7 @@ const EBDApp = () => {
     setRecords(prev => ({ ...prev, [key]: value }));
     setStatus('Salvando...');
     await saveToCloud(key, value);
-    alert('Registro salvo com sucesso!');
+    alert('Registro salvo e sincronizado!');
   };
 
   const addStudent = () => {
@@ -213,6 +218,7 @@ const EBDApp = () => {
       if (password === 'coordenador2025') {
         setUserType('master');
         setPassword('');
+        loadRecords();
       } else {
         alert('Senha incorreta!');
       }
@@ -314,7 +320,7 @@ const EBDApp = () => {
               <button onClick={() => { setShowStudentModal(true); setEditingStudent(null); setStudentName(''); }} className="px-4 py-2 bg-green-100 text-green-700 rounded flex items-center gap-1">
                 <Users /> Gerenciar Alunos
               </button>
-              <button onClick={() => setUserType(null)} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
+              <button onClick={() => { setUserType(null); setEditingRecord(null); }} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
             </div>
           </div>
 
@@ -507,17 +513,18 @@ const EBDApp = () => {
         <div className="bg-white rounded-lg shadow p-6 mb-4">
           <h3 className="text-xl font-bold text-gray-800 mb-4">Relatório Detalhado por Turma</h3>
           <div className="overflow-x-auto">
-            <table className="w-full">
+            <table className="w-full text-sm">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Turma</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Presentes</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Bíblias</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Revistas</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Visitantes</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Ofertas</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Prof. Ausentes</th>
-                  <th className="px-4 py-2 text-left text-sm font-medium text-gray-700">Ações</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Turma</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Presentes</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Bíblias</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Revistas</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Visitantes</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Ofertas</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Prof. Não Escalados</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Observações</th>
+                  <th className="px-3 py-2 text-left font-medium text-gray-700">Ações</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -528,22 +535,23 @@ const EBDApp = () => {
                   
                   return (
                     <tr key={key} className={isSaved ? 'bg-green-50' : 'bg-white'}>
-                      <td className="px-4 py-3 text-sm font-medium text-gray-900">{cls.name}</td>
-                      <td className="px-4 py-3 text-sm">{isSaved ? record.present.length + '/' + cls.students.length : '-'}</td>
-                      <td className="px-4 py-3 text-sm">{isSaved ? record.bibles : '-'}</td>
-                      <td className="px-4 py-3 text-sm">{isSaved ? record.magazines : '-'}</td>
-                      <td className="px-4 py-3 text-sm">{isSaved ? record.visitors : '-'}</td>
-                      <td className="px-4 py-3 text-sm font-medium text-green-600">
+                      <td className="px-3 py-3 font-medium text-gray-900">{cls.name}</td>
+                      <td className="px-3 py-3">{isSaved ? record.present.length + '/' + cls.students.length : '-'}</td>
+                      <td className="px-3 py-3">{isSaved ? record.bibles : '-'}</td>
+                      <td className="px-3 py-3">{isSaved ? record.magazines : '-'}</td>
+                      <td className="px-3 py-3">{isSaved ? record.visitors : '-'}</td>
+                      <td className="px-3 py-3 font-medium text-green-600">
                         {isSaved ? 'R$ ' + ((Number(record.offerPix) || 0) + (Number(record.offerCash) || 0)).toFixed(2) : '-'}
                       </td>
-                      <td className="px-4 py-3 text-sm">{isSaved ? record.teachersAbsent : '-'}</td>
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-3 py-3">{isSaved ? record.teachersAbsent : '-'}</td>
+                      <td className="px-3 py-3 max-w-xs truncate">{isSaved && record.notes ? record.notes : '-'}</td>
+                      <td className="px-3 py-3">
                         {isSaved ? (
                           <button onClick={() => { setSelectedClass(key); setEditingRecord(record); setUserType('teacher'); }} className="text-blue-600 hover:text-blue-800 flex items-center gap-1">
                             <Edit /> Editar
                           </button>
                         ) : (
-                          <span className="text-gray-400">Sem registro</span>
+                          <span className="text-gray-400">-</span>
                         )}
                       </td>
                     </tr>
