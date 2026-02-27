@@ -18,6 +18,7 @@ const EBDApp = () => {
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqwQ20RsjAzXJ1UnAEDFGxarrdNfWv2fKs2VaRaktQO8YPLnrRIiMB1X4RJkJk2qo5NA/exec';
   
   const [userType, setUserType] = useState(null);
+  const [isMasterUser, setIsMasterUser] = useState(false);
   const [selectedClass, setSelectedClass] = useState(null);
   const [password, setPassword] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date().toISOString().split('T')[0]);
@@ -26,7 +27,7 @@ const EBDApp = () => {
   const [showStudentModal, setShowStudentModal] = useState(false);
   const [editingStudent, setEditingStudent] = useState(null);
   const [studentName, setStudentName] = useState('');
-  const [editingRecord, setEditingRecord] = useState(null);
+  const [editingRecordKey, setEditingRecordKey] = useState(null);
 
   const [classes, setClasses] = useState(() => {
     const saved = localStorage.getItem('ebd_classes');
@@ -89,11 +90,9 @@ const EBDApp = () => {
 
   const saveToCloud = async (key, value) => {
     try {
-      const response = await fetch(SCRIPT_URL, {
+      await fetch(SCRIPT_URL, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'text/plain',
-        },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify({ key, value })
       });
       
@@ -106,17 +105,51 @@ const EBDApp = () => {
     }
   };
 
+  const deleteFromCloud = async (key) => {
+    try {
+      setRecords(prev => {
+        const newRecords = { ...prev };
+        delete newRecords[key];
+        return newRecords;
+      });
+
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ key, value: null })
+      });
+      
+      await loadRecords();
+      setStatus('Registro excluído! ✓');
+      setTimeout(() => setStatus(''), 2000);
+    } catch (err) {
+      setStatus('Erro ao excluir');
+      console.error(err);
+    }
+  };
+
   useEffect(() => { loadRecords(); }, []);
 
   const getKey = (cls, date) => cls + '_' + date;
 
   const getData = (cls, date) => {
     const key = getKey(cls, date);
+    
+    if (editingRecordKey === key && records[key]) {
+      return records[key];
+    }
+    
     return attendance[key] || { present: [], bibles: 0, magazines: 0, visitors: 0, offerPix: 0, offerCash: 0, teachersAbsent: 0, notes: '' };
   };
 
   const updateData = (cls, date, data) => {
-    setAttendance(prev => ({ ...prev, [getKey(cls, date)]: data }));
+    const key = getKey(cls, date);
+    
+    if (editingRecordKey === key) {
+      setRecords(prev => ({ ...prev, [key]: data }));
+    } else {
+      setAttendance(prev => ({ ...prev, [key]: data }));
+    }
   };
 
   const togglePresence = (cls, date, student) => {
@@ -145,7 +178,35 @@ const EBDApp = () => {
     setRecords(prev => ({ ...prev, [key]: value }));
     setStatus('Salvando...');
     await saveToCloud(key, value);
+    
+    setEditingRecordKey(null);
+    
     alert('Registro salvo e sincronizado!');
+  };
+
+  const deleteRecord = async (cls, date) => {
+    if (!confirm('Tem certeza que deseja EXCLUIR esta chamada?\n\nEsta ação não pode ser desfeita!')) {
+      return;
+    }
+    
+    const key = getKey(cls, date);
+    setStatus('Excluindo...');
+    await deleteFromCloud(key);
+    
+    setAttendance(prev => {
+      const newAtt = { ...prev };
+      delete newAtt[key];
+      return newAtt;
+    });
+    
+    alert('Chamada excluída com sucesso!');
+  };
+
+  const startEditRecord = (cls, date) => {
+    const key = getKey(cls, date);
+    setEditingRecordKey(key);
+    setSelectedClass(cls);
+    setUserType('teacher');
   };
 
   const addStudent = () => {
@@ -217,6 +278,7 @@ const EBDApp = () => {
     if (type === 'master') {
       if (password === 'coordenador2025') {
         setUserType('master');
+        setIsMasterUser(true);
         setPassword('');
         loadRecords();
       } else {
@@ -225,6 +287,7 @@ const EBDApp = () => {
     } else {
       if (password === classes[cls].password) {
         setUserType('teacher');
+        setIsMasterUser(false);
         setSelectedClass(cls);
         setPassword('');
       } else {
@@ -305,22 +368,32 @@ const EBDApp = () => {
 
   const isTeacher = userType === 'teacher';
   const classData = classes[selectedClass];
-  const data = editingRecord || getData(selectedClass, currentDate);
+  const data = getData(selectedClass, currentDate);
+  const recordKey = getKey(selectedClass, currentDate);
+  const isEditingExisting = editingRecordKey === recordKey;
 
   if (isTeacher) {
     return (
       <div className="min-h-screen bg-gray-50 p-4">
         <div className="max-w-4xl mx-auto">
-          <div className="bg-white rounded-lg shadow p-4 mb-4 flex items-center justify-between">
+          <div className="bg-white rounded-lg shadow p-4 mb-4 flex items-center justify-between flex-wrap gap-2">
             <div>
               <h1 className="text-xl font-bold text-gray-800">{classData.name}</h1>
               <input type="date" value={currentDate} onChange={(e) => setCurrentDate(e.target.value)} className="mt-2 px-3 py-2 border rounded" />
+              {isEditingExisting && (
+                <p className="text-sm text-blue-600 mt-1">✏️ Editando registro salvo</p>
+              )}
             </div>
             <div className="flex gap-2">
               <button onClick={() => { setShowStudentModal(true); setEditingStudent(null); setStudentName(''); }} className="px-4 py-2 bg-green-100 text-green-700 rounded flex items-center gap-1">
-                <Users /> Gerenciar Alunos
+                <Users /> Gerenciar
               </button>
-              <button onClick={() => { setUserType(null); setEditingRecord(null); }} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
+              {isEditingExisting && records[recordKey] && (
+                <button onClick={() => startEditRecord(selectedClass, currentDate)} className="px-4 py-2 bg-blue-100 text-blue-700 rounded flex items-center gap-1">
+                  <Edit /> Editar
+                </button>
+              )}
+              <button onClick={() => { setUserType(null); setEditingRecordKey(null); setIsMasterUser(false); }} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
             </div>
           </div>
 
@@ -386,7 +459,7 @@ const EBDApp = () => {
 
           <button onClick={() => saveRecord(selectedClass, currentDate)} disabled={loading} className="w-full bg-indigo-600 text-white py-4 rounded-lg hover:bg-indigo-700 transition flex items-center justify-center gap-2 font-semibold">
             <Save />
-            {loading ? 'Salvando...' : 'Salvar Registro'}
+            {loading ? 'Salvando...' : (isEditingExisting ? 'Atualizar Registro' : 'Salvar Registro')}
           </button>
         </div>
 
@@ -458,7 +531,7 @@ const EBDApp = () => {
               <RefreshCw spin={loading} />
               Atualizar
             </button>
-            <button onClick={() => setUserType(null)} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
+            <button onClick={() => { setUserType(null); setIsMasterUser(false); }} className="px-4 py-2 bg-red-100 text-red-700 rounded">Sair</button>
           </div>
         </div>
 
@@ -547,9 +620,14 @@ const EBDApp = () => {
                       <td className="px-3 py-3 max-w-xs truncate">{isSaved && record.notes ? record.notes : '-'}</td>
                       <td className="px-3 py-3">
                         {isSaved ? (
-                          <button onClick={() => { setSelectedClass(key); setEditingRecord(record); setUserType('teacher'); }} className="text-blue-600 hover:text-blue-800 flex items-center gap-1">
-                            <Edit /> Editar
-                          </button>
+                          <div className="flex gap-2">
+                            <button onClick={() => startEditRecord(key, currentDate)} className="p-1.5 text-blue-600 hover:bg-blue-100 rounded" title="Editar">
+                              <Edit />
+                            </button>
+                            <button onClick={() => deleteRecord(key, currentDate)} className="p-1.5 text-red-600 hover:bg-red-100 rounded" title="Excluir">
+                              <Trash />
+                            </button>
+                          </div>
                         ) : (
                           <span className="text-gray-400">-</span>
                         )}
