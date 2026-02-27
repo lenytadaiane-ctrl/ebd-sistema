@@ -15,7 +15,7 @@ const Trash = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" v
 const Plus = () => <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" /></svg>;
 
 const EBDApp = () => {
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx4PZSJY2Xr3sXWLhuxK2lN6TGfYoy0XJaqL2YJM6-EJ9M_5QCvN73oCvbPuaKE2AKw/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyqwQ20RsjAzXJ1UnAEDFGxarrdNfWv2fKs2VaRaktQO8YPLnrRIiMB1X4RJkJk2qo5NA/exec';
   
   const [userType, setUserType] = useState(null);
   const [selectedClass, setSelectedClass] = useState(null);
